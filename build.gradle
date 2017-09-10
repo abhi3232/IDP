@@ -9,6 +9,14 @@
 // Apply the java-library plugin to add support for Java Library
 apply plugin: 'java'
 apply plugin: 'war'
+apply plugin: 'eclipse'
+
+
+configurations {
+    provided
+}
+
+
 
 // In this section you declare where to find the dependencies of your project
 repositories {
@@ -21,12 +29,20 @@ dependencies {
     // This dependency is exported to consumers, that is to say found on their compile classpath.
 
 	compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: '1.5.2.RELEASE'
-	//providedCompile 'org.springframework.boot:spring-boot-starter-tomcat'
-	//providedCompile 'org.apache.tomcat.embed:tomcat-embed-jasper'
 	compile group: 'org.apache.tiles', name: 'tiles-jsp', version: '3.0.7'
 	compile group: 'javax.servlet', name: 'jstl', version: '1.2'
-	compile group: 'org.apache.tiles', name: 'tiles-jsp', version: '3.0.7'
+	//compile group: 'org.apache.tiles', name: 'tiles-jsp', version: '3.0.7'
+	provided 'org.springframework.boot:spring-boot-starter-tomcat:1.5.2.RELEASE'
+	provided 'org.apache.tomcat.embed:tomcat-embed-jasper'
+	
 	
     
 }
 
+sourceSets {
+    main.compileClasspath += configurations.provided
+    //test.compileClasspath += configurations.provided
+    //test.runtimeClasspath += configurations.provided
+}
+
+eclipse.classpath.plusConfigurations += [configurations.provided]  
